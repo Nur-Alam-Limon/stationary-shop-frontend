@@ -1,6 +1,6 @@
-const ProductDetails = () => {
+const About = () => {
     return <div>Welcome to the Stationery Shop!</div>;
   };
   
-  export default ProductDetails;
+  export default About;
   

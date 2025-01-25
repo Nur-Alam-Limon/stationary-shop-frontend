@@ -3,8 +3,8 @@ import authReducer from '../features/auth/authSlice';
 import productsReducer from '../features/products/productsSlice';
 import { productsApi } from '../features/products/productsApi'
 import ordersReducer from '../features/orders/orderSlice';
-import { orderApi } from '@/features/orders/orderApi';
-import { authApi } from '@/features/auth/authApi';
+import { orderApi } from '../features/orders/orderApi';
+import { authApi } from '../features/auth/authApi';
 
 export const store = configureStore({
   reducer: {
