@@ -1,5 +1,7 @@
+import AllProductsPage from "@/components/AllProduct";
+
 const AllProducts = () => {
-    return <div>Welcome to the Stationery Shop!</div>;
+    return <div><AllProductsPage/></div>;
   };
   
   export default AllProducts;
