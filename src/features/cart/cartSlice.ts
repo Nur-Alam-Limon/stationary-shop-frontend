@@ -27,8 +27,10 @@ const cartSlice = createSlice({
         const existingItem = state.items[existingItemIndex];
         
         // Check if existingItem is defined before updating
-        if (existingItem.cartQuantity) {
-          existingItem.cartQuantity += 1;
+        if (existingItem.cartQuantity && action.payload.quantity) {
+          // Ensure cartQuantity does not exceed product.quantity
+          const maxQuantity = action.payload.quantity;
+          existingItem.cartQuantity = Math.min(existingItem.cartQuantity + 1, maxQuantity);
         }
       }
       

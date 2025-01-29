@@ -102,7 +102,7 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Show search bar only on large screens */}
-        <div className="ml-24 hidden lg:block flex-grow items-center justify-center">
+        <div className="ml-24 hidden lg:block flex-grow items-center justify-center mr-4">
           <div className="relative">
             <input
               type="text"

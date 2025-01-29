@@ -53,11 +53,6 @@ Redux Toolkit is used to manage application state efficiently.
 1. Clone the repository.
 2. Install dependencies using a package manager.
 3. Start the development server.
-4. Configure necessary environment variables if required.
 
-## Contribution
-Feel free to contribute by opening issues or submitting pull requests.
 
-## License
-This project is licensed under an appropriate open-source license.
 
