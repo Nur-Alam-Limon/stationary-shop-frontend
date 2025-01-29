@@ -19,27 +19,17 @@ This is a React-Redux-based e-commerce application for a stationary business. Th
 - **UI Components:** Reusable UI elements (buttons, cards, dialogs, tables, etc.)
 
 ## Project Structure
-stationary-project/
-│── app/                # Redux store setup
-│── assets/             # Static assets (images, icons, etc.)
-│── components/         # Reusable UI components
-│── features/           # Redux slices and API interactions
-│── hooks/              # Custom hooks for authentication and UI behavior
-│── layouts/            # Layout components
-│── lib/                # Utility functions
-│── pages/              # Application pages
-│── routes/             # Route definitions
-│── types/              # Type definitions
-│── public/             # Public assets (favicons, manifest, etc.)
-│── index.tsx           # Entry point of the React application
-│── App.tsx             # Main application component
-│── vite.config.ts      # Vite configuration file
-│── package.json        # Project dependencies and scripts
-│── tsconfig.json       # TypeScript configuration
-│── .eslintrc.js        # ESLint configuration
-│── .gitignore          # Git ignore file
-│── README.md           # Project documentation
-
+The project is organized into several directories:
+- **`app/`** - Contains the Redux store setup.
+- **`assets/`** - Stores static assets.
+- **`components/`** - Reusable UI components and sections.
+- **`features/`** - Contains Redux slices and API interactions.
+- **`hooks/`** - Custom React hooks for authentication and mobile responsiveness.
+- **`layouts/`** - Layout components such as the main layout.
+- **`lib/`** - Utility functions.
+- **`pages/`** - Contains all the application pages.
+- **`routes/`** - Defines application routes.
+- **`types/`** - Type definitions for the project.
 
 ## Authentication & Authorization
 - Users can log in to access private routes.
