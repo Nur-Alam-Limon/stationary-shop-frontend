@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RootState } from "@/app/store";
 import { useUpdateProfileMutation } from "@/features/auth/authApi";
 import { updateUser } from "@/features/auth/authSlice";
+import toast from "react-hot-toast";
 
 export const UserProfile = () => {
   const dispatch = useDispatch();
@@ -82,10 +83,14 @@ export const UserProfile = () => {
       // Since we are only updating the profile, dispatch the updated profile as Partial<User>
       dispatch(updateUser(updatedProfile)); // Pass the updatedProfile directly as Partial<User>
 
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!", {
+        duration: 3000,
+      });
     } catch (error) {
       console.error("Failed to update profile:", error);
-      alert("Failed to update profile. Please try again.");
+      toast.error("Failed to update profile. Please try again.", {
+        duration: 3000,
+      });
     }
   };
 

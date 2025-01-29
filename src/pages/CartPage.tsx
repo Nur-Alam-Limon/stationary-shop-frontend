@@ -3,6 +3,7 @@ import { RootState } from "@/app/store";
 import { Button } from "@/components/ui/button";
 import { FaTrashAlt } from "react-icons/fa";
 import { removeFromCart } from "@/features/cart/cartSlice";
+import toast from "react-hot-toast";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,15 @@ const CartPage = () => {
   const handleRemoveItem = (itemId: string) => {
     // Dispatch the action to remove the item from the cart (assuming you have this action)
     dispatch(removeFromCart(itemId));
+    toast.success("Removed From Cart", {
+      duration: 3000,
+    });
   };
 
   const handleCheckout = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.BASE_URL}/api/orders/initiate-payment`,
+        `https://stationary-shop-backend.vercel.app/api/orders/initiate-payment`,
         {
           method: "POST",
           headers: {
@@ -34,9 +38,9 @@ const CartPage = () => {
             total_amount: cartTotal,
             currency: "BDT",
             tran_id: `TRX-${Date.now()}`,
-            success_url: `${import.meta.env.BASE_URL}/success`,
-            fail_url: `${import.meta.env.BASE_URL}/fail`,
-            cancel_url: `${import.meta.env.BASE_URL}/cancel`,
+            success_url: `https://stationary-shop-backend.vercel.app/success`,
+            fail_url: `https://stationary-shop-backend.vercel.app/fail`,
+            cancel_url: `https://stationary-shop-backend.vercel.app/cancel`,
             customer: {
               name: user?.name,
               email: user?.email,
@@ -53,12 +57,15 @@ const CartPage = () => {
 
       if (data.success && data.GatewayPageURL) {
         window.location.href = data.GatewayPageURL;
+        toast.success("Payment initiated successfully! Redirecting...", {
+          duration: 3000,
+        });
       } else {
-        alert("Failed to initiate payment. Please try again.");
+        toast.error("Failed to initiate payment. Please try again.");
       }
     } catch (error) {
       console.error("Checkout Error:", error);
-      alert("An error occurred while initiating payment.");
+      toast.error("An error occurred while initiating payment.");
     }
   };
 

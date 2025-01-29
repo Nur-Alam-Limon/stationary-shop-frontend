@@ -1,9 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductsQuery } from "@/features/products/productsApi";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/features/cart/cartSlice";
+import toast from "react-hot-toast";
 
 export const ProductDetails: React.FC = () => {
   const { productId } = useParams<{ productId: string }>(); // Using productId as the URL parameter
+  const dispatch = useDispatch();
 
   // Fetch product data from API using useGetProductsQuery
   const { data, isLoading, isError } = useGetProductsQuery();
@@ -41,6 +45,13 @@ export const ProductDetails: React.FC = () => {
     );
   }
 
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    toast.success("Product Added to Cart", {
+      duration: 3000,
+    });
+  };
+
   return (
     <section className="min-h-screen bg-gray-50 py-20">
       <div className="container mx-auto px-8">
@@ -71,8 +82,7 @@ export const ProductDetails: React.FC = () => {
                 <span className="font-semibold">Brand:</span> {product.brand}
               </p>
               <p className="text-lg text-gray-600 mb-2">
-                <span className="font-semibold">Category:</span>{" "}
-                {product.category}
+                <span className="font-semibold">Category:</span> {product.category}
               </p>
               <p className="text-lg text-gray-600 mb-2">
                 <span className="font-semibold">Stock Availability:</span>{" "}
@@ -86,7 +96,10 @@ export const ProductDetails: React.FC = () => {
 
             {/* Call to Action */}
             <div className="flex gap-4">
-              <button className="bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-purple-700 transition-all w-full md:w-auto">
+              <button 
+                className="bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-purple-700 transition-all w-full md:w-auto"
+                onClick={handleAddToCart}
+              >
                 Add to Cart
               </button>
             </div>

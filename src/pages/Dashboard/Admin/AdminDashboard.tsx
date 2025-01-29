@@ -18,6 +18,8 @@ const AdminDashboard = () => {
     }
   });
 
+  console.log("Select", selectedSection);
+
   return (
     <div className="flex flex-col md:flex-row ">
       {/* Sidebar */}

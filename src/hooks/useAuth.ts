@@ -20,7 +20,7 @@ const useAuth = () => {
   const isAdmin = user?.role === "admin";
 
   // Login handler 
-  const login = (token: string, user: any) => {
+  const login = (token: string) => {
     localStorage.setItem("authToken", token); // Save token to localStorage for persistence
     navigate("/");
   };

@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { setSearchQuery } from "@/features/products/productsSlice";
 import { RootState } from "@/app/store";
+import { clearCart } from "@/features/cart/cartSlice";
+import toast from "react-hot-toast";
 
 export const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -37,6 +39,10 @@ export const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
+    toast.success("Logged out successfuly", {
+      duration: 3000,
+    });
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

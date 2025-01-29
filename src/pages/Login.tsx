@@ -13,6 +13,7 @@ import {
   loginStart,
   loginSuccess,
 } from "@/features/auth/authSlice";
+import toast from "react-hot-toast";
 
 type LoginFormData = {
   email: string;
@@ -49,6 +50,9 @@ export const Login: React.FC = () => {
           dispatch(
             loginSuccess({ user: response.user, token: response.token })
           );
+          toast.success("Login successful", {
+            duration: 3000,
+          });
         }
         // After successful login, navigate based on user role
         if (response?.user?.role === "admin") {
@@ -61,6 +65,9 @@ export const Login: React.FC = () => {
         dispatch(loginFailure(error.message));
         setLoginError(error?.data?.error || "Login failed. Please try again.");
         console.error("Login Error", error);
+        toast.error("Login failed. Please try again.", {
+          duration: 3000,
+        });
       });
   };
 
@@ -74,6 +81,9 @@ export const Login: React.FC = () => {
           dispatch(
             loginSuccess({ user: response.user, token: response.token })
           );
+          toast.success("Registration successful", {
+            duration: 3000,
+          });
         }
         // After successful registration, navigate based on user role
         if (response?.user?.role === "admin") {
@@ -85,14 +95,18 @@ export const Login: React.FC = () => {
       .catch((error) => {
         dispatch(loginFailure(error.message));
         console.error("Registration Error", error);
+        toast.error("Registration Error", {
+          duration: 3000,
+        });
       });
   };
 
   return (
-    <div className="py-36 flex items-center justify-center bg-gray-50">
-      <div className="w-1/2 bg-center pr-12">
-        <img src="login.png" alt="login" className="w-60% h-auto" />
+    <div className="flex flex-col lg:flex-row py-20 flex items-center justify-center bg-gray-50">
+      <div className="w-full md:w-1/2 bg-center flex justify-center">
+        <img src="login.png" alt="login" className="w-[60%] h-auto" />
       </div>
+
       <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg">
         <div className="flex justify-between mb-6">
           <Link

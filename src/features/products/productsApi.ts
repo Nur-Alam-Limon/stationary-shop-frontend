@@ -11,7 +11,7 @@ interface ProductsApiResponse {
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.BASE_URL}/api`,
+    baseUrl: `https://stationary-shop-backend.vercel.app/api`,
     prepareHeaders: (headers, { getState }) => {
       // Access the token from Redux state
       const token = (getState() as RootState).auth.token;

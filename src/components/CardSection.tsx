@@ -26,26 +26,26 @@ export const CardSection: React.FC = () => {
           {cards.map((card, index) => (
             <div
               key={index}
-              className="bg-gradient-to-r from-purple-600 via-purple-500 to-purple-800 p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center sm:items-start"
+              className="bg-gradient-to-r from-purple-600 via-purple-500 to-purple-800 p-12 rounded-lg shadow-lg flex flex-col md:flex-row md:items-center md:justify-around gap-20"
             >
-              {/* Top (Image on mobile, Right on larger screens) */}
-              <div className="w-full sm:w-1/2 mb-4 sm:mb-0 sm:mr-8 flex justify-center">
+              {/* Image Section */}
+              <div className="w-full md:w-auto flex justify-center md:justify-start">
                 <img
                   src={card.imageUrl}
                   alt={card.title}
-                  className="max-w-xs h-40 rounded-lg shadow-lg mx-auto sm:mx-0"
+                  className="max-w-full md:max-w-xs h-40 rounded-lg shadow-lg"
                 />
               </div>
 
-              {/* Bottom (Text content on mobile, Left on larger screens) */}
-              <div className="flex-1 text-center sm:text-left">
+              {/* Text Section */}
+              <div className="w-full md:w-auto text-center md:text-left">
                 <h3 className="text-3xl font-semibold text-white mb-4">
                   {card.title}
                 </h3>
                 <p className="text-lg text-white mb-6">{card.description}</p>
                 <Button
                   variant="outline"
-                  className="bg-white py-6 btn-outline-purple btn-outline-purple:hover rounded-lg hover:bg-gray-800"
+                  className="bg-white py-3 px-6 rounded-lg hover:bg-gray-800 hover:text-white transition"
                 >
                   {card.buttonText}
                 </Button>

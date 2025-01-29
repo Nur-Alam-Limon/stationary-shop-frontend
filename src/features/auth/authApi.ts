@@ -5,7 +5,7 @@ import { RootState } from '@/app/store';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.BASE_URL}/api/auth`,
+    baseUrl: `https://stationary-shop-backend.vercel.app/api/auth`,
     prepareHeaders: (headers, { getState }) => {
       // Access the token from Redux state
       const token = (getState() as RootState).auth.token;

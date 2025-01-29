@@ -1,6 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const About: React.FC = () => {
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  const handleShopNowClick = () => {
+    navigate("/all-products"); // Navigate to the '/all-products' route
+  };
   return (
     <section className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-8">
@@ -30,87 +36,6 @@ export const About: React.FC = () => {
             tools to help you shine. Explore our collection and find the
             products that will transform your workspace into a hub of
             creativity, focus, and inspiration.
-          </p>
-        </div>
-
-        {/* About Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Image Section */}
-          <div className="flex justify-center">
-            <img
-              src="https://img.freepik.com/free-photo/closed-notebook-office-supplies_23-2147689745.jpg?uid=R8647428&ga=GA1.1.805615852.1737822151&semt=ais_hybrid"
-              alt="Stationery Items"
-              className="rounded-lg shadow-lg w-full h-96 object-cover"
-            />
-          </div>
-
-          {/* Text Section */}
-          <div>
-            <h2 className="text-3xl font-semibold text-purple-600 mb-4">
-              Who We Are
-            </h2>
-            <p className="text-start text-gray-700 text-lg mb-6 leading-relaxed">
-              At Stationery Shop, we are a team of passionate individuals who
-              share a love for design, productivity, and craftsmanship. Our goal
-              is simple: to bring you high-quality, thoughtfully designed
-              stationery that enhances your daily routine. From sleek notebooks
-              to functional desk accessories, every product we offer is selected
-              with care to ensure it meets the needs of our customers.
-            </p>
-            <p className="text-gray-700 text-lg leading-relaxed mb-6">
-              We understand that the right tools can make all the difference in
-              staying organized, inspired, and productive. Whether you’re
-              jotting down your ideas, organizing your workspace, or unleashing
-              your creativity, we are here to support you with products that
-              bring value to your work and lifestyle.
-            </p>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              Our collection is carefully curated to cater to various
-              needs—whether you're looking for professional supplies, creative
-              tools, or organizational essentials, we’ve got you covered. We
-              believe that quality, functionality, and design should come
-              together to help you stay productive and inspired every day.
-            </p>
-          </div>
-        </div>
-
-        {/* Our Mission Section */}
-        <div className="mt-16">
-          <h2 className="text-center text-4xl font-semibold text-purple-600 mb-8">
-            Our Mission
-          </h2>
-          <p className="text-start text-gray-700 text-lg mx-auto text-center mb-6">
-            At <span className="font-semibold">Stationery Shop</span>, our
-            mission goes beyond just offering premium stationery products. We
-            are committed to creating a positive and empowering environment for
-            everyone—whether you're a student, a professional, or an artist. We
-            believe that the right tools can transform not only your workspace
-            but your entire approach to work and creativity.
-            <br />
-            <br />
-            We carefully curate our collection to ensure that every item we
-            offer has a purpose beyond just functionality. Our stationery
-            products are designed to inspire and motivate, while also helping
-            you stay organized and focused. We understand the unique needs of
-            our diverse customers, which is why our range includes everything
-            from elegant notebooks and stylish pens to practical desk organizers
-            and planners.
-            <br />
-            <br />
-            Our goal is to make your daily tasks easier, more enjoyable, and
-            more productive. Whether you're working from home, in the office, or
-            pursuing your passion, we want to be your trusted partner in
-            achieving success. We are not just providing tools, but creating an
-            experience that fosters creativity, supports personal growth, and
-            brings joy to your workspace. Every product we offer is a step
-            towards a more organized, inspired, and efficient you.
-            <br />
-            <br />
-            At Stationery Shop, we are more than just a retailer; we are a part
-            of your journey towards achieving your dreams. We aim to be the
-            go-to destination for high-quality, thoughtfully-designed products
-            that elevate your everyday life and help you achieve your goals, one
-            task at a time.
           </p>
         </div>
 
@@ -154,6 +79,91 @@ export const About: React.FC = () => {
           </div>
         </div>
 
+        {/* Our Mission Section */}
+        <div className="mt-16">
+          <h2 className="text-center text-4xl font-semibold text-purple-600 mb-8">
+            Our Mission
+          </h2>
+          <p className="text-start text-gray-700 text-lg mx-auto text-center mb-6">
+            At <span className="font-semibold">Stationery Shop</span>, our
+            mission goes beyond just offering premium stationery products. We
+            are committed to creating a positive and empowering environment for
+            everyone—whether you're a student, a professional, or an artist. We
+            believe that the right tools can transform not only your workspace
+            but your entire approach to work and creativity.
+            <br />
+            <br />
+            We carefully curate our collection to ensure that every item we
+            offer has a purpose beyond just functionality. Our stationery
+            products are designed to inspire and motivate, while also helping
+            you stay organized and focused. We understand the unique needs of
+            our diverse customers, which is why our range includes everything
+            from elegant notebooks and stylish pens to practical desk organizers
+            and planners.
+            <br />
+            <br />
+            Our goal is to make your daily tasks easier, more enjoyable, and
+            more productive. Whether you're working from home, in the office, or
+            pursuing your passion, we want to be your trusted partner in
+            achieving success. We are not just providing tools, but creating an
+            experience that fosters creativity, supports personal growth, and
+            brings joy to your workspace. Every product we offer is a step
+            towards a more organized, inspired, and efficient you.
+            <br />
+            <br />
+            At Stationery Shop, we are more than just a retailer; we are a part
+            of your journey towards achieving your dreams. We aim to be the
+            go-to destination for high-quality, thoughtfully-designed products
+            that elevate your everyday life and help you achieve your goals, one
+            task at a time.
+          </p>
+        </div>
+
+        {/* About Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mt-12">
+          {/* Image Section */}
+          <div className="flex justify-center">
+            <img
+              src="https://img.freepik.com/free-photo/closed-notebook-office-supplies_23-2147689745.jpg?uid=R8647428&ga=GA1.1.805615852.1737822151&semt=ais_hybrid"
+              alt="Stationery Items"
+              className="rounded-lg shadow-lg w-full h-96 object-cover"
+            />
+          </div>
+
+          {/* Text Section */}
+          <div>
+            <h2 className="text-3xl font-semibold text-purple-600 mb-4">
+              Who We Are
+            </h2>
+            <p className="text-start text-gray-700 text-lg mb-6 leading-relaxed">
+              At Stationery Shop, we are a team of passionate individuals who
+              share a love for design, productivity, and craftsmanship. Our goal
+              is simple: to bring you high-quality, thoughtfully designed
+              stationery that enhances your daily routine. From sleek notebooks
+              to functional desk accessories, every product we offer is selected
+              with care to ensure it meets the needs of our customers.
+            </p>
+            <p className="text-gray-700 text-lg leading-relaxed mb-6">
+              We understand that the right tools can make all the difference in
+              staying organized, inspired, and productive. Whether you’re
+              jotting down your ideas, organizing your workspace, or unleashing
+              your creativity, we are here to support you with products that
+              bring value to your work and lifestyle.
+            </p>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Our collection is carefully curated to cater to various
+              needs—whether you're looking for professional supplies, creative
+              tools, or organizational essentials, we’ve got you covered. We
+              believe that quality, functionality, and design should come
+              together to help you stay productive and inspired every day.
+            </p>
+          </div>
+        </div>
+
+        
+
+        
+
         {/* Call to Action */}
         <div className="text-center mt-20">
           <h2 className="text-3xl font-semibold text-gray-800 mb-4">
@@ -166,7 +176,10 @@ export const About: React.FC = () => {
             to help you elevate your daily routine and create an inspiring
             workspace that fosters productivity.
           </p>
-          <button className="bg-white border-2 border-purple-600 text-purple-600 font-bold px-6 py-3 rounded-full hover:bg-purple-600 hover:text-white transition-all">
+          <button
+            className="bg-white border-2 border-purple-600 text-purple-600 font-bold px-6 py-3 rounded-full hover:bg-purple-600 hover:text-white transition-all"
+            onClick={handleShopNowClick} // Add the onClick handler
+          >
             Shop Now
           </button>
         </div>

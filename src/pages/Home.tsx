@@ -7,10 +7,10 @@ const Home = () => {
   return (
     <div>
       <HeroSection />
-      <ProductShowcase title="Our Popular Products" description="Browse through our selection of high-quality stationary items perfect for your office or home." />
+      <ProductShowcase sliceIndex={0} title="Our Popular Products" description="Browse through our selection of high-quality stationary items perfect for your office or home." />
       <FeaturesSection />
       <CardSection/>
-      <ProductShowcase title="Personalized For You" />
+      <ProductShowcase sliceIndex={-4} title="Personalized For You" />
     </div>
   );
 };
