@@ -58,7 +58,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="bg-gray-900 text-white shadow-md sticky top-0 z-10">
-      <div className="px-16 container mx-auto flex justify-between items-center p-6 py-4">
+      <div className="px-6 lg:px-16 container mx-auto flex justify-between items-center p-6 py-4">
         <div className="flex items-center space-x-16">
           <Link
             to="/"
@@ -158,7 +158,7 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="lg:hidden">
-          <button className="text-white" onClick={toggleMobileMenu}>
+          <button className="text-white text-4xl" onClick={toggleMobileMenu}>
             ☰
           </button>
         </div>

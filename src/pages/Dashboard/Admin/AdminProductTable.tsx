@@ -8,13 +8,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Edit, Trash2, Plus } from "lucide-react";
-import { useGetProductsQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductMutation } from "@/features/products/productsApi";
+import {
+  useGetProductsQuery,
+  useAddProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
+} from "@/features/products/productsApi";
 import { Product } from "@/types/types";
-
-
 
 type FormData = {
   name: string;
@@ -44,7 +53,7 @@ export const ProductTable = () => {
     description: "",
     category: "",
     brand: "",
-    productImg: ""
+    productImg: "",
   });
 
   const openModal = (product: Product | null = null) => {
@@ -61,7 +70,16 @@ export const ProductTable = () => {
             brand: product.brand || "",
             productImg: product.productImg || "",
           }
-        : { name: "", price: "", quantity: "", inStock: false, description: "", category: "", brand: "", productImg: "" }
+        : {
+            name: "",
+            price: "",
+            quantity: "",
+            inStock: false,
+            description: "",
+            category: "",
+            brand: "",
+            productImg: "",
+          }
     );
     setModalOpen(true);
   };
@@ -88,11 +106,14 @@ export const ProductTable = () => {
       description: formData.description,
       category: formData.category,
       brand: formData.brand,
-      productImg: formData.productImg
+      productImg: formData.productImg,
     };
 
     if (editingProduct) {
-      await updateProduct({ id: editingProduct._id, updatedProduct: productData });
+      await updateProduct({
+        id: editingProduct._id,
+        updatedProduct: productData,
+      });
     } else {
       await addProduct(productData);
     }
@@ -112,12 +133,17 @@ export const ProductTable = () => {
   }, [productsResponse]);
 
   // Handle the type-check and access the 'data' property if necessary
-  const products = productsResponse && 'data' in productsResponse ? productsResponse.data : productsResponse || [];
+  const products =
+    productsResponse && "data" in productsResponse
+      ? productsResponse.data
+      : productsResponse || [];
 
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl text-gray-700 font-bold">Manage your product inventory</h2>
+        <h2 className="text-2xl text-gray-700 font-bold">
+          Manage your product inventory
+        </h2>
         <Button
           onClick={() => openModal()}
           className="flex items-center space-x-2 bg-purple-600 text-white hover:bg-purple-700"
@@ -146,7 +172,9 @@ export const ProductTable = () => {
                 <TableCell className="py-4">{product.name}</TableCell>
                 <TableCell className="py-4">{product.price}</TableCell>
                 <TableCell className="py-4">{product.quantity}</TableCell>
-                <TableCell className="py-4">{product.inStock ? "In Stock" : "Out of Stock"}</TableCell>
+                <TableCell className="py-4">
+                  {product.inStock ? "In Stock" : "Out of Stock"}
+                </TableCell>
                 <TableCell className="flex space-x-2">
                   <Button
                     variant="ghost"
@@ -175,7 +203,9 @@ export const ProductTable = () => {
       <Dialog open={isModalOpen} onOpenChange={closeModal}>
         <DialogContent className="bg-white p-8 rounded-lg shadow-lg">
           <DialogHeader>
-            <DialogTitle>{editingProduct ? "Edit Product" : "Create Product"}</DialogTitle>
+            <DialogTitle>
+              {editingProduct ? "Edit Product" : "Create Product"}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 my-4">
             <Input
@@ -184,6 +214,7 @@ export const ProductTable = () => {
               value={formData.name}
               onChange={handleInputChange}
               className="py-6"
+              required // Make this field required
             />
             <Input
               name="price"
@@ -191,6 +222,7 @@ export const ProductTable = () => {
               value={formData.price}
               onChange={handleInputChange}
               className="py-6"
+              required // Make this field required
             />
             <Input
               name="quantity"
@@ -198,6 +230,7 @@ export const ProductTable = () => {
               value={formData.quantity}
               onChange={handleInputChange}
               className="py-6"
+              required // Make this field required
             />
             <Input
               name="description"
@@ -205,6 +238,7 @@ export const ProductTable = () => {
               value={formData.description}
               onChange={handleInputChange}
               className="py-6"
+              required // Make this field required
             />
             <Input
               name="category"
@@ -212,6 +246,7 @@ export const ProductTable = () => {
               value={formData.category}
               onChange={handleInputChange}
               className="py-6"
+              required // Make this field required
             />
             <Input
               name="brand"
@@ -219,6 +254,7 @@ export const ProductTable = () => {
               value={formData.brand}
               onChange={handleInputChange}
               className="py-6"
+              required // Make this field required
             />
             <Input
               name="productImg"
@@ -226,6 +262,7 @@ export const ProductTable = () => {
               value={formData.productImg}
               onChange={handleInputChange}
               className="py-6"
+              required // Make this field required
             />
             <div className="flex items-center space-x-2">
               <input
@@ -236,13 +273,21 @@ export const ProductTable = () => {
               />
               <label>In Stock</label>
             </div>
-            
           </div>
+
           <DialogFooter>
-            <Button onClick={closeModal} variant="outline" className="mr-2 btn-outline-purple btn-outline-purple:hover mb-2">
+            <Button
+              onClick={closeModal}
+              variant="outline"
+              className="mr-2 btn-outline-purple btn-outline-purple:hover mb-2"
+            >
               Cancel
             </Button>
-            <Button onClick={handleSave} variant="outline" className="btn-outline-purple btn-outline-purple:hover mb-2">
+            <Button
+              onClick={handleSave}
+              variant="outline"
+              className="btn-outline-purple btn-outline-purple:hover mb-2"
+            >
               {editingProduct ? "Update" : "Save"}
             </Button>
           </DialogFooter>

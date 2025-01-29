@@ -1,7 +1,13 @@
 import React from "react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const CardSection: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate('/all-products');
+  };
   const cards = [
     {
       title: "Fast Delivery",
@@ -46,6 +52,7 @@ export const CardSection: React.FC = () => {
                 <Button
                   variant="outline"
                   className="bg-white py-3 px-6 rounded-lg hover:bg-gray-800 hover:text-white transition"
+                  onClick={handleButtonClick}
                 >
                   {card.buttonText}
                 </Button>
