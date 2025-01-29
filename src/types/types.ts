@@ -7,6 +7,8 @@ export interface Product {
     description: string;
     quantity: number;
     inStock: boolean;
+    productImg: string;
+    cartQuantity?: number;
   }
   
   export interface Order {
@@ -16,6 +18,7 @@ export interface Product {
     quantity: number;
     totalPrice: number;
     createdAt: string;
+    status: string;
   }
 
   export interface User {
@@ -23,6 +26,10 @@ export interface Product {
     name: string; // Full name of the user
     email: string; // Email address of the user
     role: 'admin' | 'customer'; // Role of the user (can be extended as needed)
+    phone?: string; // Optional field
+    address?: string; // Optional field
+    profilePic?: string; 
+    status?: string;
     createdAt: string; // Timestamp of user creation
     updatedAt: string; // Timestamp of the last update
   }

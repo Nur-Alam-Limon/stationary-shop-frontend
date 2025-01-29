@@ -6,7 +6,7 @@ import { useState } from "react";
 const UserDashboard = () => {
     const [selectedSection, setSelectedSection] = useState<string>("");
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row">
       <UserSidebar onSelectSection={setSelectedSection} />
       <div className="flex-1 p-4">
         <Outlet />

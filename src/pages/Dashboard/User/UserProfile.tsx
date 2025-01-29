@@ -1,24 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { RootState } from "@/app/store";
+import { useUpdateProfileMutation } from "@/features/auth/authApi";
+import { updateUser } from "@/features/auth/authSlice";
 
 export const UserProfile = () => {
-  const [profile, setProfile] = useState<{
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    profilePic: File | null; // Allow both File and null
-  }>({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    address: "123 Main Street, Springfield",
-    profilePic: null,
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user); // Adjust based on your state structure
+  const [updateProfile, { isLoading, isSuccess, error }] =
+    useUpdateProfileMutation(); // Destructure mutation result
+
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    profilePic: null as File | null,
   });
 
   const [preview, setPreview] = useState<string | null>(null);
+
+  // Populate profile state when the component loads
+  useEffect(() => {
+    if (user) {
+      setProfile({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "",
+        profilePic: null, // Adjust if you have a profile picture URL
+      });
+
+      if (user.profilePic) {
+        setPreview(user.profilePic); // Use profilePic URL if available
+      }
+    }
+  }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,24 +54,50 @@ export const UserProfile = () => {
     }
   };
 
-  const handleUpdate = () => {
-    console.log("Profile updated:", profile);
-    alert("Profile updated successfully!");
+  type UpdatedProfile = {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    profilePic: string;
+  };
+
+  const handleUpdate = async () => {
+    // Construct the updated profile with necessary fields
+    const updatedProfile: UpdatedProfile = {
+      name: profile.name ?? "", // Ensure values are not undefined
+      email: profile.email ?? "",
+      phone: profile.phone ?? "",
+      address: profile.address ?? "",
+      profilePic: preview ?? "", // Ensure preview is a string or empty string
+    };
+
+    try {
+      console.log("Updating profile:", updatedProfile);
+
+      // Execute the mutation and wait for the response
+      const response = await updateProfile(updatedProfile).unwrap();
+      console.log("Profile updated successfully:", response);
+
+      // Since we are only updating the profile, dispatch the updated profile as Partial<User>
+      dispatch(updateUser(updatedProfile)); // Pass the updatedProfile directly as Partial<User>
+
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      alert("Failed to update profile. Please try again.");
+    }
   };
 
   return (
     <div className="p-6 flex justify-center items-start bg-gray-50 min-h-screen my-12">
-      <Card className="w-full max-w-2xl shadow-lg rounded-2xl border border-gray-200">
-        {/* Card Header */}
+      <Card className="w-full max-w-2xl sm:max-w-lg md:max-w-2xl shadow-lg rounded-2xl border border-gray-200">
         <CardHeader className="bg-gray-800 text-white rounded-t-2xl">
           <CardTitle className="text-2xl text-center py-3">
             User Profile
           </CardTitle>
         </CardHeader>
-
-        {/* Card Content */}
         <CardContent className="p-6 bg-white rounded-b-2xl space-y-10">
-          {/* Profile Picture */}
           <div className="flex flex-col items-center">
             <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-purple-700">
               <img
@@ -74,10 +120,7 @@ export const UserProfile = () => {
               onChange={handleImageChange}
             />
           </div>
-
-          {/* User Details Form */}
           <form className="space-y-5">
-            {/* Full Name */}
             <div>
               <label className="block text-md font-semibold text-gray-700 mb-1">
                 Full Name
@@ -91,8 +134,6 @@ export const UserProfile = () => {
                 className="w-full p-3 py-5 mt-3 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200"
               />
             </div>
-
-            {/* Email Address */}
             <div>
               <label className="block text-md font-semibold text-gray-700 mb-1">
                 Email Address
@@ -103,11 +144,10 @@ export const UserProfile = () => {
                 value={profile.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
+                readOnly
                 className="w-full p-3 py-5 mt-2 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200"
               />
             </div>
-
-            {/* Phone Number */}
             <div>
               <label className="block text-md font-semibold text-gray-700 mb-1">
                 Phone Number
@@ -121,8 +161,6 @@ export const UserProfile = () => {
                 className="w-full p-3 py-5 mt-2 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200"
               />
             </div>
-
-            {/* Address */}
             <div>
               <label className="block text-md font-semibold text-gray-700 mb-1">
                 Address
@@ -136,17 +174,24 @@ export const UserProfile = () => {
                 className="w-full p-3 py-5 mt-2 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring focus:ring-purple-200"
               />
             </div>
-
-            {/* Update Button */}
             <div className="text-center">
               <Button
                 onClick={handleUpdate}
                 className="w-full my-4 py-6 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition"
+                disabled={isLoading} // Disable button while mutation is in progress
               >
-                Update Profile
+                {isLoading ? "Updating..." : "Update Profile"}
               </Button>
             </div>
           </form>
+          {isSuccess && (
+            <p className="text-green-500 text-center">
+              Profile updated successfully!
+            </p>
+          )}
+          {error && (
+            <p className="text-red-500 text-center">Error updating profile.</p>
+          )}
         </CardContent>
       </Card>
     </div>

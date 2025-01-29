@@ -1,28 +1,47 @@
-import { useState } from "react";
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
+  TableHead,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Clock } from "lucide-react";
+import { CheckCircle } from "lucide-react";
+
+import { Order } from "@/types/types"; 
+import { useFetchOrdersQuery, useOrderStatusMutation } from "@/features/orders/orderApi";
 
 export const OrderTable = () => {
-  const [orders, setOrders] = useState([
-    { id: 101, customer: "John Doe", product: "Smartwatch", status: "Pending" },
-    { id: 102, customer: "Jane Smith", product: "Wireless Earbuds", status: "Pending" },
-  ]);
+  // Redux query hook to fetch orders
+  const { data, isLoading, isError, error, refetch } = useFetchOrdersQuery();
 
-  const handleApprove = (id: Number) => {
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.id === id ? { ...order, status: "Shipping" } : order
-      )
-    );
+  const [updateOrder] = useOrderStatusMutation()
+
+  // Handle the approve action 
+  const handleApprove = async (id: string) => {
+    const orderData = {
+      orderId: id,
+      status: "Shipped",
+      
+    };
+    await updateOrder(orderData);
+  
+
+    refetch();
   };
+
+  // Handle loading and error states
+  if (isLoading) return <div>Loading...</div>;
+
+  // Accessing the error correctly for FetchBaseQueryError type
+  const errorMessage = isError
+    ? (error as { status: number; data: { message: string } }).data?.message
+    : null;
+
+  if (errorMessage) return <div>Error: {errorMessage}</div>;
+
+  const orders: Order[] = data?.data ? data.data : [];
 
   return (
     <div className="p-6">
@@ -35,42 +54,48 @@ export const OrderTable = () => {
           <TableRow>
             <TableHead className="py-4">Order ID</TableHead>
             <TableHead className="py-4">Customer</TableHead>
-            <TableHead className="py-4">Product</TableHead>
+            <TableHead className="py-4">Quantity</TableHead>
             <TableHead className="py-4">Status</TableHead>
+            <TableHead className="py-4">Total Price</TableHead>
+            <TableHead className="py-4">Created At</TableHead>
             <TableHead className="py-4">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {orders.map((order) => (
-            <TableRow key={order.id} className="hover:bg-gray-50">
-              <TableCell className="py-4">{order.id}</TableCell>
-              <TableCell className="py-4">{order.customer}</TableCell>
-              <TableCell className="py-4">{order.product}</TableCell>
-              <TableCell
-                className={`${
-                  order.status === "Pending" ? "text-yellow-500" : "text-blue-500"
-                }`}
-              >
-                {order.status}
-              </TableCell>
-              <TableCell className="flex space-x-2">
-                {order.status === "Pending" && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleApprove(order.id)}
-                    className="text-green-500 hover:text-green-700"
-                  >
-                    <CheckCircle size={16} /> Approve
-                  </Button>
-                )}
-                {order.status === "Shipping" && (
-                  <Button variant="ghost" disabled className="text-gray-500">
-                    <Clock size={16} /> Shipping
-                  </Button>
-                )}
+          {orders.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-4">
+                No orders found
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            orders.map((order) => (
+              <>
+                <TableRow key={order._id} className="hover:bg-gray-50">
+                  <TableCell className="py-4">{order._id}</TableCell>
+                  <TableCell className="py-4">{order.email}</TableCell>
+                  <TableCell className="py-4">{order.quantity}</TableCell>
+                  <TableCell className="py-4">{order.status}</TableCell>
+                  <TableCell className="py-4">
+                    ${order.totalPrice.toFixed(2)}
+                  </TableCell>
+                  <TableCell className="py-4">
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell className="py-4">
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleApprove(order._id)}
+                      className="text-green-500 hover:text-green-700"
+                    >
+                      <CheckCircle size={16} /> Approve
+                    </Button>
+                  </TableCell>
+                </TableRow>
+                
+              </>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>

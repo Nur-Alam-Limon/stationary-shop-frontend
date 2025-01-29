@@ -6,12 +6,14 @@ interface ProductsState {
   products: Product[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  searchQuery: string; // Add search query state
 }
 
 const initialState: ProductsState = {
   products: [],
   status: 'idle',
   error: null,
+  searchQuery: '', // Initialize the search query state
 };
 
 const productsSlice = createSlice({
@@ -20,6 +22,9 @@ const productsSlice = createSlice({
   reducers: {
     setProducts: (state, action: PayloadAction<Product[]>) => {
       state.products = action.payload;
+    },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload; // Update search query state
     },
   },
   extraReducers: (builder) => {
@@ -34,7 +39,7 @@ const productsSlice = createSlice({
         productsApi.endpoints.getProducts.matchFulfilled,
         (state, action) => {
           state.status = 'succeeded';
-          state.products = action.payload;
+          state.products = action.payload.data;
         }
       )
       .addMatcher(
@@ -47,5 +52,5 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setProducts } = productsSlice.actions;
+export const { setProducts, setSearchQuery } = productsSlice.actions;
 export default productsSlice.reducer;

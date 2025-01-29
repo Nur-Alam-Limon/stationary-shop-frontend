@@ -38,7 +38,7 @@ const appRoutes = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/about", element: <About /> },
       { path: "/all-products", element: <AllProducts /> },
-      { path: "/product/:productName", element: <ProductDetails /> },
+      { path: "/product-details/:productId", element: <ProductDetails /> },
       { path: "/login", element: <Login /> },
 
 
@@ -59,7 +59,6 @@ const appRoutes = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
-          // Default route for "/dashboard/profile"
           { index: true, element: <UserProfile /> },
           { path: "orders", element: <UserOrders /> },
           { path: "profile", element: <UserProfile /> },
@@ -72,7 +71,7 @@ const appRoutes = createBrowserRouter([
         element: (
           <AdminRoute>
             <AdminDashboard />
-           </AdminRoute>
+          </AdminRoute>
         ),
         children: [
           // Default route for "/dashboard/admin"

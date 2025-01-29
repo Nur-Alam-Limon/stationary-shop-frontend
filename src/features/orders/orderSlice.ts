@@ -5,12 +5,14 @@ interface OrderState {
   orders: Order[];
   loading: boolean;
   error: string | null;
+  userEmail: string | null; 
 }
 
 const initialState: OrderState = {
   orders: [],
   loading: false,
   error: null,
+  userEmail: null, // Default email is null
 };
 
 const orderSlice = createSlice({

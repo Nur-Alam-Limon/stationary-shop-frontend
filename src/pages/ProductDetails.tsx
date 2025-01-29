@@ -1,46 +1,35 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-
-// Mock Data (Replace with your actual product fetching logic)
-const products = [
-  {
-    name: 'Notebook',
-    price: '10.00',
-    imageUrl:
-      'https://img.freepik.com/free-photo/lovely-flowers-concept-with-modern-notebook_23-2148007002.jpg?uid=R8647428&ga=GA1.1.805615852.1737822151&semt=ais_hybrid',
-    description: 'A premium notebook for all your note-taking needs.',
-  },
-  {
-    name: 'Pen Set',
-    price: '15.00',
-    imageUrl:
-      'https://img.freepik.com/free-photo/3d-rendering-pen-ai-generated_23-2150695397.jpg?uid=R8647428&ga=GA1.1.805615852.1737822151&semt=ais_hybrid',
-    description: 'A set of high-quality pens for smooth writing.',
-  },
-  {
-    name: 'Desk Organizer',
-    price: '25.00',
-    imageUrl:
-      'https://img.freepik.com/free-photo/plant-near-various-stationery_23-2147772321.jpg?uid=R8647428&ga=GA1.1.805615852.1737822151&semt=ais_hybrid',
-    description: 'Keep your workspace tidy with this stylish desk organizer.',
-  },
-  {
-    name: 'Stapler',
-    price: '5.00',
-    imageUrl:
-      'https://img.freepik.com/free-photo/red-set-office-supplies_53876-75088.jpg?uid=R8647428&ga=GA1.1.805615852.1737822151&semt=ais_hybrid',
-    description: 'A reliable stapler for all your office needs.',
-  },
-];
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useGetProductsQuery } from "@/features/products/productsApi";
 
 export const ProductDetails: React.FC = () => {
-  const { productName } = useParams<{ productName: string }>(); // Extract product name from the URL
+  const { productId } = useParams<{ productId: string }>(); // Using productId as the URL parameter
 
-  // Normalize names: Lowercase and replace spaces with hyphens
-  const normalizedProductName = productName?.toLowerCase().replace(/-/g, ' ');
-  const product = products.find(
-    (p) => p.name.toLowerCase() === normalizedProductName
-  );
+  // Fetch product data from API using useGetProductsQuery
+  const { data, isLoading, isError } = useGetProductsQuery();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-semibold text-purple-600">
+          Loading product...
+        </h1>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-semibold text-red-500">
+          Failed to load product details. Please try again later.
+        </h1>
+      </div>
+    );
+  }
+
+  // Find the product dynamically using the ID from the URL
+  const product = data?.data?.find((p) => p._id === productId);
 
   if (!product) {
     return (
@@ -55,12 +44,11 @@ export const ProductDetails: React.FC = () => {
   return (
     <section className="min-h-screen bg-gray-50 py-20">
       <div className="container mx-auto px-8">
-        {/* Product Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Product Image */}
           <div className="flex justify-center">
             <img
-              src={product.imageUrl}
+              src={product.productImg}
               alt={product.name}
               className="rounded-lg shadow-lg w-full max-w-md object-cover"
             />
@@ -74,14 +62,34 @@ export const ProductDetails: React.FC = () => {
             <p className="text-purple-600 text-2xl font-semibold mb-4">
               ${product.price}
             </p>
-            <p className="text-gray-700 text-lg mb-6 leading-relaxed">
-              {product.description}
-            </p>
+
+            <div className="mb-6">
+              <p className="text-lg text-gray-700 leading-relaxed mb-3">
+                {product.description}
+              </p>
+              <p className="text-lg text-gray-600 mb-2">
+                <span className="font-semibold">Brand:</span> {product.brand}
+              </p>
+              <p className="text-lg text-gray-600 mb-2">
+                <span className="font-semibold">Category:</span>{" "}
+                {product.category}
+              </p>
+              <p className="text-lg text-gray-600 mb-2">
+                <span className="font-semibold">Stock Availability:</span>{" "}
+                {product.inStock ? "In Stock" : "Out of Stock"}
+              </p>
+              <p className="text-lg text-gray-600 mb-6">
+                <span className="font-semibold">Quantity Available:</span>{" "}
+                {product.quantity}
+              </p>
+            </div>
 
             {/* Call to Action */}
-            <button className="bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-purple-700 transition-all">
-              Add to Cart
-            </button>
+            <div className="flex gap-4">
+              <button className="bg-purple-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-purple-700 transition-all w-full md:w-auto">
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
