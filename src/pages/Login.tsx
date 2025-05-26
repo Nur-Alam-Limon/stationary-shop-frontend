@@ -102,9 +102,9 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row py-20 flex items-center justify-center bg-gray-50">
-      <div className="w-full md:w-1/2 bg-center flex justify-center">
-        <img src="login.png" alt="login" className="w-[60%] h-auto" />
+    <div className="flex flex-col lg:flex-row py-20 flex items-center justify-center bg-gray-50 min-h-screen">
+      <div className="w-full md:w-1/2 bg-center flex justify-start">
+        <img src="login.png" alt="login" className="w-[80%] h-auto" />
       </div>
 
       <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg">

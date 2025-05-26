@@ -7,6 +7,7 @@ import { RootState } from "@/app/store";
 import { Link } from "react-router-dom";
 import { addToCart } from "@/features/cart/cartSlice"; // Import addToCart action
 import toast from "react-hot-toast";
+import Loading from "./Loading";
 
 const AllProductsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,8 +50,11 @@ const AllProductsPage: React.FC = () => {
       ? product.inStock === (selectedAvailability === "In Stock")
       : true;
     const isSearchMatch = searchQuery
-      ? product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      : true;
+    ? product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchQuery.toLowerCase())
+    : true;
+    
     return (
       isPriceMatch && isCategoryMatch && isAvailabilityMatch && isSearchMatch
     );
@@ -68,7 +72,7 @@ const AllProductsPage: React.FC = () => {
   };
 
   if (isLoading) {
-    return <p>Loading products...</p>;
+    return <Loading/>;
   }
 
   if (isError) {

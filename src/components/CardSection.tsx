@@ -26,7 +26,7 @@ export const CardSection: React.FC = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-8 lg:px-16 py-8 sm:py-12 lg:py-20 bg-gray-100">
+    <section className="px-4 sm:px-8 lg:px-16 py-8 sm:py-12 lg:py-20 bg-gray-50">
       <div className="container mx-auto text-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {cards.map((card, index) => (

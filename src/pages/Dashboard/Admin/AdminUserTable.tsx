@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
 import { useGetAllUsersQuery, useUpdateProfileMutation } from "@/features/auth/authApi";
+import Loading from "@/components/Loading";
 
 export const UserTable = () => {
   // Fetch users using the useGetAllUsersQuery hook
@@ -38,7 +39,7 @@ export const UserTable = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show loading indicator while users are being fetched
+    return <Loading/>; // Show loading indicator while users are being fetched
   }
 
   if (isError) {

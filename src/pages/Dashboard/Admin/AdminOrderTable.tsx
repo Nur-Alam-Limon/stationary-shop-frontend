@@ -11,6 +11,7 @@ import { CheckCircle } from "lucide-react";
 
 import { Order } from "@/types/types"; 
 import { useFetchOrdersQuery, useOrderStatusMutation } from "@/features/orders/orderApi";
+import Loading from "@/components/Loading";
 
 export const OrderTable = () => {
   // Redux query hook to fetch orders
@@ -32,7 +33,7 @@ export const OrderTable = () => {
   };
 
   // Handle loading and error states
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading/>;
 
   // Accessing the error correctly for FetchBaseQueryError type
   const errorMessage = isError

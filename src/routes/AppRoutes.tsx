@@ -14,6 +14,7 @@ import { OrderTable } from "@/pages/Dashboard/Admin/AdminOrderTable";
 import { UserProfile } from "@/pages/Dashboard/User/UserProfile";
 import UserDashboard from "@/pages/Dashboard/User/UserDashboard";
 import { UserOrders } from "@/pages/Dashboard/User/UserOrders";
+import { Contact } from "@/pages/Contact";
 
 
 // Private Route Wrapper
@@ -37,6 +38,7 @@ const appRoutes = createBrowserRouter([
       // Public Routes
       { path: "/", element: <Home /> },
       { path: "/about", element: <About /> },
+      { path: "/contact", element: <Contact /> },
       { path: "/all-products", element: <AllProducts /> },
       { path: "/product-details/:productId", element: <ProductDetails /> },
       { path: "/login", element: <Login /> },

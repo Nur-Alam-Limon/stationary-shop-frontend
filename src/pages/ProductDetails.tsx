@@ -4,6 +4,8 @@ import { useGetProductsQuery } from "@/features/products/productsApi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/features/cart/cartSlice";
 import toast from "react-hot-toast";
+import Loading from "@/components/Loading";
+import { ProductShowcase } from "@/components/ProductShow";
 
 export const ProductDetails: React.FC = () => {
   const { productId } = useParams<{ productId: string }>(); // Using productId as the URL parameter
@@ -14,11 +16,7 @@ export const ProductDetails: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h1 className="text-2xl font-semibold text-purple-600">
-          Loading product...
-        </h1>
-      </div>
+      <Loading/>
     );
   }
 
@@ -55,7 +53,7 @@ export const ProductDetails: React.FC = () => {
   return (
     <section className="min-h-screen bg-gray-50 py-20">
       <div className="container mx-auto px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center my-12">
           {/* Product Image */}
           <div className="flex justify-center">
             <img
@@ -105,6 +103,7 @@ export const ProductDetails: React.FC = () => {
             </div>
           </div>
         </div>
+        <ProductShowcase sliceIndex={-4} title="You May Also Like" />
       </div>
     </section>
   );

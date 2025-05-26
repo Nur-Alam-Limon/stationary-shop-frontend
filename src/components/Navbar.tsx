@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../features/auth/authSlice";
+import { RootState } from "@/app/store";
 import { Button } from "@/components/ui/button";
+import { clearCart } from "@/features/cart/cartSlice";
+import { setSearchQuery } from "@/features/products/productsSlice";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 import {
   FaCartPlus,
   FaUser,
@@ -9,11 +13,8 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../features/auth/authSlice";
-import { setSearchQuery } from "@/features/products/productsSlice";
-import { RootState } from "@/app/store";
-import { clearCart } from "@/features/cart/cartSlice";
-import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { MegaMenu } from "./MegaMenu";
 
 export const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -52,13 +53,13 @@ export const Navbar: React.FC = () => {
   const handleSearchKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       // Trigger navigation to the All Products page
-      navigate("/all-products"); 
+      navigate("/all-products");
     }
   };
 
   return (
-    <header className="bg-gray-900 text-white shadow-md sticky top-0 z-10">
-      <div className="px-6 lg:px-16 container mx-auto flex justify-between items-center p-6 py-4">
+    <header className="bg-gray-900 text-white shadow-md sticky top-0 z-[1000]">
+      <div className="px-6 lg:px-16 container mx-auto flex justify-between items-center py-5">
         <div className="flex items-center space-x-16">
           <Link
             to="/"
@@ -70,23 +71,30 @@ export const Navbar: React.FC = () => {
                 alt="logo"
                 className="rounded-sm h-14 w-14 mr-2"
               />
-              <span>Stationary</span>
+              <span className="text-2xl pl-2 text-purple-100">Stationary</span>
             </div>
           </Link>
-          <nav className="hidden lg:flex space-x-6">
-            <Link
-              to="/all-products"
-              className="text-lg text-gray-300 hover:text-white transition-all"
-            >
-              Products
-            </Link>
-            <Link
-              to="/about"
-              className="text-lg text-gray-300 hover:text-white transition-all"
-            >
-              About
-            </Link>
-            {isAuthenticated && (
+         {/* Insert MegaMenu component */}
+          <MegaMenu />
+        </div>
+
+        {/* Show search bar only on large screens */}
+        <div className="mx-8 hidden lg:block">
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery} // Controlled input
+              onChange={handleSearchChange} // Handle search input change
+              onKeyPress={handleSearchKeyPress} // Handle Enter key press for search
+              placeholder="Search..."
+              className="bg-gray-200 text-gray-700 py-2 px-4 rounded-full pl-12 w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
+        </div>
+
+        <div className="hidden lg:flex space-x-8 items-center">
+          {isAuthenticated && (
               <Link
                 to={
                   user?.role === "admin"
@@ -98,25 +106,6 @@ export const Navbar: React.FC = () => {
                 Dashboard
               </Link>
             )}
-          </nav>
-        </div>
-
-        {/* Show search bar only on large screens */}
-        <div className="ml-24 hidden lg:block flex-grow items-center justify-center mr-4">
-          <div className="relative">
-            <input
-              type="text"
-              value={searchQuery} // Controlled input
-              onChange={handleSearchChange} // Handle search input change
-              onKeyPress={handleSearchKeyPress} // Handle Enter key press for search
-              placeholder="Search..."
-              className="bg-gray-800 text-white py-2 px-4 rounded-full pl-12 w-96 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="hidden lg:flex space-x-4 items-center">
           {isAuthenticated ? (
             <Link
               to="/login"
@@ -131,20 +120,16 @@ export const Navbar: React.FC = () => {
                 to="/login"
                 className="text-lg text-gray-300 hover:text-white transition-all flex items-center"
               >
-                <FaSignInAlt className="mr-2" /> Login
+                <FaSignInAlt className="mr-2" /> Login / Register
               </Link>
-              <Link
-                to="/login"
-                className="text-lg text-gray-300 hover:text-white transition-all flex items-center"
-              >
-                <FaUser className="mr-2" /> Sign Up
-              </Link>
+              
             </>
           )}
+          
           <Button
             variant="outline"
             size="default"
-            className="relative text-gray-200 hover:text-gray-900 flex items-center"
+            className="relative text-gray-200 hover:text-white flex items-center"
             onClick={() => navigate("/cart")} // Go to the cart page when clicked
           >
             <FaCartPlus />
@@ -173,6 +158,9 @@ export const Navbar: React.FC = () => {
             <Link to="/about" className="block text-lg">
               About
             </Link>
+            <Link to="/contact" className="block text-lg">
+              Contact
+            </Link>
             <Link to="/dashboard/user" className="block text-lg">
               Dashboard
             </Link>
@@ -189,18 +177,16 @@ export const Navbar: React.FC = () => {
             ) : (
               <>
                 <Link to="/login" className="block text-lg">
-                  Login
+                  Login / Register
                 </Link>
-                <Link to="/login" className="block text-lg">
-                  Sign Up
-                </Link>
+                
               </>
             )}
             <Button
               variant="outline"
               size="sm"
               className="w-full flex items-center justify-center"
-              onClick={() => navigate("/cart")} 
+              onClick={() => navigate("/cart")}
             >
               <FaCartPlus className="mr-2" />
             </Button>

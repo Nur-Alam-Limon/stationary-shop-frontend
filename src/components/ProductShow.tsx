@@ -1,10 +1,11 @@
-import React from "react";
-import { useGetProductsQuery } from "@/features/products/productsApi";
+import Loading from "./Loading";
 import { Button } from "./ui/button";
-import { useDispatch } from "react-redux";
 import { addToCart } from "@/features/cart/cartSlice";
-import { Link } from "react-router-dom";
+import { useGetProductsQuery } from "@/features/products/productsApi";
+import React from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 interface ProductShowcaseProps {
   title: string;
@@ -21,6 +22,8 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
   const products = data?.data || [];
   const dispatch = useDispatch();
 
+  console.log("Products", products);
+
   const handleAddToCart = (product: any) => {
     dispatch(addToCart(product));
     toast.success("Product Added to Cart", {
@@ -29,17 +32,24 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
   };
 
   if (isLoading) {
-    return <p>Loading products...</p>;
+    return <Loading />;
   }
 
   if (isError) {
     return <p>Failed to fetch products. Please try again later.</p>;
   }
 
-  const displayProducts =
-    sliceIndex === -4
-      ? products.slice(-4)
-      : products.slice(0, window.innerWidth >= 850 ? 4 : 3);
+  let displayProducts;
+
+  if (sliceIndex === -4) {
+    displayProducts = products.slice(-4);
+  } else if (sliceIndex === 0) {
+    displayProducts = products.slice(0, window.innerWidth >= 850 ? 4 : 3);
+  } else if (sliceIndex === 5) {
+    const count = 4;
+    const middleStart = Math.max(Math.floor((products.length - count) / 2), 0);
+    displayProducts = products.slice(middleStart, middleStart + count);
+  }
 
   return (
     <section className="py-20 bg-gray-100 px-4 sm:px-8 lg:px-16">
@@ -60,7 +70,7 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
         </Link>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {displayProducts.map((product) => (
+          {displayProducts?.map((product) => (
             <div
               key={product._id}
               className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:scale-105"
@@ -91,7 +101,6 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
               >
                 Add to Cart
               </Button>
-              
             </div>
           ))}
         </div>

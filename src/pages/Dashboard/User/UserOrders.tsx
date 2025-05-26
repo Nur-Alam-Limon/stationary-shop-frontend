@@ -1,5 +1,6 @@
 
 import { RootState } from "@/app/store";
+import Loading from "@/components/Loading";
 import {
   Table,
   TableBody,
@@ -21,7 +22,7 @@ export const UserOrders = () => {
 
   // If loading, display a loading message
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   // If there's an error fetching data, display an error message

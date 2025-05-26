@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { Button } from "@/components/ui/button";
-import { FaTrashAlt } from "react-icons/fa";
 import { removeFromCart } from "@/features/cart/cartSlice";
 import toast from "react-hot-toast";
+import { FaTrashAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -70,100 +70,102 @@ const CartPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen py-8 md:py-10 px-4 sm:px-8 lg:px-16">
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-semibold text-center text-gray-800 my-8 md:mb-10">
+    <div className="bg-gray-50 min-h-screen py-20 px-4 sm:px-8 lg:px-16">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-center text-gray-800 mb-16">
           Your Cart
         </h2>
 
         {cartItems.length === 0 ? (
-          <p className="text-center text-lg text-gray-600">
-            Your cart is empty
+          <p className="text-center text-xl text-gray-600">
+            Your cart is empty 😕
           </p>
         ) : (
-          <div className="space-y-6">
-            {cartItems.map((item) => (
-              <div
-                key={item._id}
-                className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-lg shadow-lg py-8"
-              >
-                <div className="flex flex-col items-center space-y-4 md:space-y-0 md:flex-row md:space-x-6">
-                  <img
-                    src={item.productImg}
-                    alt={item.name}
-                    className="w-40 h-40 object-cover rounded-md"
-                  />
-                  <div className="text-left md:text-left">
-                    <h3 className="text-2xl font-semibold text-gray-800 py-2">
+          <div className="flex flex-col sm:flex-row justify-between items-start lg:space-x-10 space-y-6 lg:space-y-0">
+            <div className="space-y-6 w-full lg:w-[65%]">
+              {cartItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex flex-col sm:flex-row justify-between bg-white rounded-xl shadow-md overflow-hidden"
+                >
+                  {/* Left: Image */}
+                  <div className="sm:w-48 flex-shrink-0">
+                    <img
+                      src={item.productImg}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Middle: Details */}
+                  <div className="flex-1 p-6">
+                    <h3 className="text-2xl font-semibold text-gray-800">
                       {item.name}
                     </h3>
-                    <p className="text-lg text-gray-500 py-1">
-                      Description: {item.description || "N/A"}
+                    <p className="text-sm text-gray-500 mt-2">
+                      {item.description || "No description available."}
                     </p>
-                    <p className="text-lg text-gray-500 py-1">
-                      Category: {item.category}
-                    </p>
-                    <p className="text-lg text-gray-500 py-1">
-                      Brand: {item.brand || "Unknown"}
-                    </p>
-                    <p className="text-lg text-gray-500 py-1">
-                      Quantity: {item.cartQuantity || 1}
-                    </p>
+                    <div className="flex flex-col flex-wrap gap-2 mt-4 text-gray-600 text-sm">
+                      <span>
+                        <strong>Category:</strong> {item.category}
+                      </span>
+                      <span>
+                        <strong>Brand:</strong> {item.brand || "Unknown"}
+                      </span>
+                      <span>
+                        <strong>Quantity:</strong> {item.cartQuantity ?? 1}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Price and Button in One Row on Mobile */}
-                <div className="flex flex-col md:flex-row justify-between items-center w-full md:w-auto mt-4 md:mt-0">
-                  <div className="flex flex-row justify-between items-center w-full">
-                    <span className="text-gray-700 text-2xl font-semibold">
-                      BDT {item.price * (item.cartQuantity ?? 1)}{" "}
-                      {/* Display cartQuantity */}
+                  {/* Right: Price + Action */}
+                  <div className="p-6 flex flex-col justify-between items-end">
+                    <span className="text-xl font-bold text-purple-500 mb-4">
+                      BDT {(item.price * (item.cartQuantity ?? 1)).toFixed(2)}
                     </span>
                     <button
-                      className="text-red-600 hover:text-red-800 ml-6"
                       onClick={() => handleRemoveItem(item._id)}
+                      className="text-red-600 hover:text-red-800 transition"
                     >
                       <FaTrashAlt className="w-6 h-6" />
                     </button>
                   </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Cart Summary */}
+            <div className="bg-white p-10 rounded-xl shadow-lg w-full lg:w-[65%]">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">
+                Cart Summary
+              </h3>
+
+              <div className="space-y-4 text-gray-700">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span>BDT {cartTotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Shipping</span>
+                  <span className="text-green-600 font-medium">Free</span>
+                </div>
+                <hr />
+                <div className="flex justify-between text-xl font-semibold text-gray-800">
+                  <span>Total</span>
+                  <span>BDT {cartTotal.toFixed(2)}</span>
+                </div>
               </div>
-            ))}
+
+              <Button
+                variant="outline"
+                className="mt-6 w-full py-6 text-md bg-purple-500 hover:bg-purple-700 text-white rounded-lg transition"
+                onClick={handleCheckout}
+              >
+                Proceed to Checkout
+              </Button>
+            </div>
           </div>
         )}
-
-        <div className="mt-8 md:mt-12 bg-white p-6 rounded-lg shadow-lg py-6">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-            Cart Summary
-          </h3>
-
-          <div className="flex justify-between mb-4">
-            <span className="text-lg text-gray-700">Subtotal</span>
-            <span className="text-lg text-gray-700">
-              BDT {cartTotal.toFixed(2)}
-            </span>
-          </div>
-
-          <div className="flex justify-between mb-4">
-            <span className="text-lg text-gray-700">Shipping</span>
-            <span className="text-lg text-gray-700">Free</span>
-          </div>
-
-          <div className="flex justify-between mb-6">
-            <span className="text-xl font-semibold text-gray-800">Total</span>
-            <span className="text-xl font-semibold text-gray-800">
-              BDT {cartTotal.toFixed(2)}
-            </span>
-          </div>
-
-          <Button
-            variant="outline"
-            className="w-full py-6 text-xl bg-purple-600 text-white rounded-lg font-semibold"
-            onClick={handleCheckout}
-          >
-            Proceed to Checkout
-          </Button>
-        </div>
       </div>
     </div>
   );
