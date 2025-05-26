@@ -1,10 +1,12 @@
 import { useGetProductsQuery } from "@/features/products/productsApi";
 import { setSearchQuery } from "@/features/products/productsSlice";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 export const MegaMenu: React.FC = () => {
+  const [isHovering, setIsHovering] = useState(false);
+
   const { data, isLoading, isError } = useGetProductsQuery();
   const products = data?.data || [];
 
@@ -25,16 +27,25 @@ export const MegaMenu: React.FC = () => {
 
   return (
     <nav className="hidden lg:flex space-x-8">
-      <div className="group relative">
+      <div
+        className="relative"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         <span className="text-lg text-gray-300 hover:text-white transition-all cursor-pointer">
           Browse
         </span>
 
         <div
-          className="mt-4 absolute left-0 top-full w-[500px] bg-white text-gray-800 shadow-xl p-6 rounded-xl
-  opacity-0 pointer-events-none
-  group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
-  transform -translate-y-2 transition-all duration-300 z-50"
+          className={`
+        absolute left-0 top-full w-[500px] bg-white text-gray-800 shadow-xl p-6 rounded-xl z-50
+        transition-all duration-300
+        ${
+          isHovering
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-2 pointer-events-none"
+        }
+      `}
         >
           <div className="grid grid-cols-2 gap-6">
             {/* Stationery Categories */}
