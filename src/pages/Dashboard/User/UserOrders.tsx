@@ -20,33 +20,20 @@ export const UserOrders = () => {
     userEmail as string
   );
 
-  // If loading, display a loading message
-  if (isLoading) {
-    return <Loading/>;
-  }
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error loading orders</div>;
 
-  // If there's an error fetching data, display an error message
-  if (error) {
-    return <div>Error loading orders</div>;
-  }
-
-  // If no orders data, display a message indicating no orders
-  if (!data || !data.success || data.data.length === 0) {
-    return <div>No orders found.</div>;
-  }
+  const orders = data?.data || [];
 
   return (
     <div className="p-6">
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">My Orders</h2>
+        <h2 className="text-2xl font-bold text-gray-800">My Orders</h2>
       </div>
 
-      {/* Orders Table */}
       <div className="overflow-x-auto">
-        <Table className="w-full border border-gray-300 rounded-lg">
-          {/* Table Header */}
-          <TableHeader className="bg-gray-800 text-white font-bold">
+        <Table className="w-full border border-gray-200 rounded-lg">
+          <TableHeader className="bg-gray-800 text-white">
             <TableRow>
               <TableHead className="py-4">Order ID</TableHead>
               <TableHead className="py-4">Product ID</TableHead>
@@ -56,31 +43,38 @@ export const UserOrders = () => {
             </TableRow>
           </TableHeader>
 
-          {/* Table Body */}
           <TableBody>
-            {data.data.map((order: any) => (
-              <TableRow key={order._id} className="hover:bg-gray-50">
-                <TableCell className="py-4">{order._id}</TableCell>
-                <TableCell className="py-4">{order.product}</TableCell>{" "}
-                {/* Product is ID */}
-                <TableCell className="py-4">{order.quantity}</TableCell>
-                <TableCell className="py-4">{order.totalPrice}</TableCell>
-                <TableCell
-                  className={`py-4 ${
-                    order.status === "Pending"
-                      ? "text-yellow-500"
-                      : order.status === "Shipping"
-                      ? "text-blue-500"
-                      : "text-green-500"
-                  }`}
-                >
-                  {order.status}
+            {orders.length > 0 ? (
+              orders.map((order: any) => (
+                <TableRow key={order._id} className="hover:bg-gray-50">
+                  <TableCell className="py-4">{order._id}</TableCell>
+                  <TableCell className="py-4">{order.product}</TableCell>
+                  <TableCell className="py-4">{order.quantity}</TableCell>
+                  <TableCell className="py-4">{order.totalPrice}</TableCell>
+                  <TableCell
+                    className={`py-4 font-medium ${
+                      order.status === "Pending"
+                        ? "text-yellow-600"
+                        : order.status === "Shipping"
+                        ? "text-blue-600"
+                        : "text-green-600"
+                    }`}
+                  >
+                    {order.status}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-16 text-gray-500 text-lg">
+                  No orders found.
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
     </div>
   );
 };
+

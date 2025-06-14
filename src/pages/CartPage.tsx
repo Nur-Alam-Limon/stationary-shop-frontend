@@ -36,6 +36,7 @@ const CartPage = () => {
           },
           body: JSON.stringify({
             total_amount: cartTotal,
+            cartItems: cartItems,
             currency: "BDT",
             tran_id: `TRX-${Date.now()}`,
             success_url: `https://stationary-shop-backend.vercel.app/success`,

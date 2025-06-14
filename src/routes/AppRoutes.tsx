@@ -15,6 +15,7 @@ import { UserProfile } from "@/pages/Dashboard/User/UserProfile";
 import UserDashboard from "@/pages/Dashboard/User/UserDashboard";
 import { UserOrders } from "@/pages/Dashboard/User/UserOrders";
 import { Contact } from "@/pages/Contact";
+import AdminCharts from "@/pages/Dashboard/Admin/AdminCharts";
 
 
 // Private Route Wrapper
@@ -77,7 +78,7 @@ const appRoutes = createBrowserRouter([
         ),
         children: [
           // Default route for "/dashboard/admin"
-          { index: true, element: <ProductTable /> },
+          { index: true, element: <AdminCharts /> },
           
           { path: "manage-users", element: <UserTable /> },
           { path: "manage-products", element: <ProductTable /> },

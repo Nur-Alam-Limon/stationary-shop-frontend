@@ -8,6 +8,7 @@ export const Sidebar = ({
   const navigate = useNavigate();
 
   const menuItems = [
+    { name: "Dashboard", path: "/" },
     { name: "Manage Users", path: "/manage-users" },
     { name: "Manage Products", path: "/manage-products" },
     { name: "Manage Orders", path: "/manage-orders" },
