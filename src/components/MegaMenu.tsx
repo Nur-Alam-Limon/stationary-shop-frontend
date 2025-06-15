@@ -95,7 +95,7 @@ export const MegaMenu: React.FC = () => {
 
       {/* Static menu items */}
       <button
-        onClick={() => handleClick("all")}
+        onClick={() => handleClick("")}
         className="text-lg text-gray-300 hover:text-white transition-all"
       >
         Products

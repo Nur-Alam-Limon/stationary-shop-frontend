@@ -27,7 +27,7 @@ export const Sidebar = ({
       </div>
 
       {/* Menu Items */}
-      <ul className="flex lg:flex-col flex-row lg:space-y-4 lg:p-4 p-2">
+      <ul className="flex lg:flex-col flex-row lg:space-y-4 lg:p-4 p-2 items-center">
         {menuItems.map((item, index) => (
           <li key={index} className="group w-full">
             <div
@@ -37,7 +37,7 @@ export const Sidebar = ({
               <span className="group-hover:text-gray-100">{item.name}</span>
             </div>
             {/* Divider */}
-            {index < menuItems.length - 1 && <hr className="border-gray-700" />}
+            {index < menuItems.length - 1 && <hr className="border-none lg:border-gray-700" />}
           </li>
         ))}
       </ul>

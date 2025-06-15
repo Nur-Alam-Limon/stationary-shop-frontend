@@ -58,7 +58,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="bg-gray-900 text-white shadow-md sticky top-0 z-[1000]">
-      <div className="px-6 lg:px-16 container mx-auto flex justify-between items-center py-5">
+      <div className="container mx-auto flex justify-between items-center py-5">
         <div className="flex items-center space-x-16">
           <Link
             to="/"
