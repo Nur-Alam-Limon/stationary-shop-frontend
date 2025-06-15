@@ -57,9 +57,9 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="bg-gray-900 text-white shadow-md sticky top-0 z-[1000]">
+    <header className="px-4 sm:px-8 md:px-16 bg-gray-900 text-white shadow-md sticky top-0 z-[1000]">
       <div className="container mx-auto flex justify-between items-center py-5">
-        <div className="flex items-center space-x-16">
+        <div className="flex items-center space-x-12">
           <Link
             to="/"
             className="text-xl font-extrabold tracking-widest text-gray-200"
